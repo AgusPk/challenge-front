@@ -2,11 +2,11 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### git clone https://github.com/AgusPk/challenge-front.git
 
+### npm install
 
-## Available Scripts
-
-In the project directory, you can run:
+## Start project
 
 ### `npm start`
 
@@ -16,3 +16,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
+## API repo
+
+### https://github.com/AgusPk/challenge-api
