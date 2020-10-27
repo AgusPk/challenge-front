@@ -1,22 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import "./App.css";
+import TopNav from "./containers/Navbar";
+import PassengerForm from "./containers/PassengerForm";
+import PassengerProfile from "./containers/PassengerProfile";
+import PassengersList from "./containers/PassengersList";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
+function App(props) {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <TopNav />
+      <header>
+        <Switch>
+          <Route exact path="/" component={PassengersList} />
+          <Route path="/passenger/add" component={PassengerForm} history={props.history} />
+          <Route path="/passenger/:id" component={PassengerProfile} history={props.history}/>
+        </Switch>
       </header>
     </div>
   );
