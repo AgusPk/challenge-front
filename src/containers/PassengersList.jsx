@@ -1,4 +1,4 @@
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PassengerRepository from "../repositories/PassengerRepository";
@@ -16,43 +16,57 @@ function PassengersList() {
   }, []);
 
   const handleClick = async (e, id) => {
-    e.preventDefault()
-    await PassengerRepository.deletePassenger(id)
-    const filteredPassengers = filterPassengers(id)
-    setPassengers(filteredPassengers)
-  }
-  const filterPassengers = (id) =>{
-    return passengers.filter(passenger => passenger.id !== id)
-  }
+    e.preventDefault();
+    await PassengerRepository.deletePassenger(id);
+    const filteredPassengers = filterPassengers(id);
+    setPassengers(filteredPassengers);
+  };
+  const filterPassengers = (id) => {
+    return passengers.filter((passenger) => passenger.id !== id);
+  };
   return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>Pasajero</th>
-          <th>Vuelo</th>
-          <th>Detalle</th>
-          <th>Check out</th>
-        </tr>
-      </thead>
-      <tbody>
-        {passengers &&
-          passengers.map((passenger) => (
-            <tr key={passenger.id}>
-              <td>{passenger.name}</td>
-              <td>{passenger.code}</td>
-              <td>
-                <Link to={`/passenger/${passenger.id}`}>
-                  <Button variant="secondary"><BsFillEyeFill/></Button>
-                </Link>
-              </td>
-              <td>
-                <Button variant="warning" onClick={e => handleClick(e, passenger.id)}><BsBoxArrowUp/></Button>
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </Table>
-  );
-}
-
-export default PassengersList;
+    <Container className="mt-5">
+      {passengers.length ? 
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Pasajero</th>
+            <th>Vuelo</th>
+            <th>Detalle</th>
+            <th>Check out</th>
+          </tr>
+        </thead>
+        <tbody>
+          {passengers &&
+            passengers.map((passenger) => (
+              <tr key={passenger.id}>
+                <td>{passenger.name}</td>
+                <td>{passenger.code}</td>
+                <td>
+                  <Link to={`/passenger/${passenger.id}`}>
+                    <Button variant="secondary">
+                      <BsFillEyeFill />
+                    </Button>
+                  </Link>
+                </td>
+                <td>
+                  <Button
+                    variant="warning"
+                    onClick={(e) => handleClick(e, passenger.id)}
+                    >
+                    <BsBoxArrowUp />
+                  </Button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </Table>
+      :
+      <p>No hay pasajeros registrados</p>
+  }
+    </Container>
+    );
+  }
+  
+  export default PassengersList;
+  

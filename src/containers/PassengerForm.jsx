@@ -1,4 +1,4 @@
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Col, Container, Alert } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import PassengerRepository from "../repositories/PassengerRepository";
 
@@ -7,6 +7,8 @@ function PassengerForm({ history }) {
     name: "",
     code: "",
   });
+
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setPassenger({
@@ -17,39 +19,51 @@ function PassengerForm({ history }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (passenger.name.length && passenger.code.length === 5) {
-      const createdPassenger = await PassengerRepository.createPassenger(
-        passenger
-      );
-      history.push(`/passenger/${createdPassenger.id}`);
+    try {
+      if (passenger.name.length && passenger.code.length === 5) {
+        const createdPassenger = await PassengerRepository.createPassenger(
+          passenger
+        );
+        history.push(`/passenger/${createdPassenger.id}`);
+      }
+    } catch (e) {
+      setError(e.response.data.message);
     }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="formBasicEmail">
-        <Form.Label>Nombre</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Nombre"
-          name="name"
-          onChange={handleChange}
-        />
-      </Form.Group>
-
-      <Form.Group controlId="formBasicPassword">
-        <Form.Label>Codigo de Vuelo</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Vuelo"
-          name="code"
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Guardar
-      </Button>
-    </Form>
+    <Container className="mt-5">
+      <Form onSubmit={handleSubmit}>
+        <Form.Row>
+          <Col>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Control
+                type="text"
+                placeholder="Nombre"
+                name="name"
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Control
+                type="text"
+                placeholder="Vuelo"
+                name="code"
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Button variant="primary" type="submit">
+              Guardar
+            </Button>
+          </Col>
+        </Form.Row>
+      </Form>
+      {error.length > 0 && <Alert variant="danger">{error}</Alert>}
+    </Container>
   );
 }
 

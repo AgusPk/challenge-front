@@ -1,5 +1,4 @@
-import { Table, Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Table, Button, Form, Container } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import PackageForm from "../components/PackageForm";
 import PassengerRepository from "../repositories/PassengerRepository";
@@ -53,16 +52,25 @@ function PassengerProfile(props) {
   };
 
   return (
-    <div>
-      <h3>Pasajero: </h3>
-      <span>{passenger.name}</span>
-      <h3>Vuelo: </h3>
-      <span>{passenger.code}</span>
-      <h3>Checkout</h3>
-      <Button variant="warning" onClick={handleClick}>
-        <BsBoxArrowUp />
-      </Button>
-
+    <Container>
+      <div className="d-flex justify-content-between">
+        <div>
+          <h3>Pasajero: </h3>
+          <span>{passenger.name}</span>
+        </div>
+        <div>
+          <h3>Vuelo: </h3>
+          <span>{passenger.code}</span>
+        </div>
+        <div>
+          <h3>Checkout</h3>
+          <Button variant="warning" onClick={handleClick}>
+            <BsBoxArrowUp />
+          </Button>
+        </div>
+      </div>
+    {packages.length ? 
+    <>
       <h2>Paquetes</h2>
       <Table striped bordered hover>
         <thead>
@@ -83,15 +91,22 @@ function PassengerProfile(props) {
             ))}
         </tbody>
       </Table>
+      </>
+      :
+      <p>No hay paquetes asignados</p>
+      }
       {packages && packages.length < 3 && (
+        <>
+        <h3>Agregar Paquetes</h3>
         <Form onSubmit={handleSubmit}>
           <PackageForm handleChange={handleChange} categories={categories} />
           <Button variant="primary" type="submit">
-            Agregar
+          Agregar
           </Button>
-        </Form>
-      )}
-    </div>
+          </Form>
+          </>
+          )}
+    </Container>
   );
 }
 
